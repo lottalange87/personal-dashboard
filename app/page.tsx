@@ -1,5 +1,3 @@
-"use client";
-
 import ClientWrapper from "./components/ClientWrapper";
 
 export const dynamic = 'force-dynamic';
