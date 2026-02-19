@@ -9,17 +9,16 @@ import MarketsApp from "./MarketsApp";
 const CORRECT_PASSWORD = "LottaDash2026!";
 
 export default function ClientWrapper() {
+  // Start with unauthenticated state - same for server and client
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentApp, setCurrentApp] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
-
+  
+  // Check auth only on client after mount
   useEffect(() => {
-    // Check auth status on client-side only
     const stored = localStorage.getItem("dashboard_auth");
     if (stored === "true") {
       setIsAuthenticated(true);
     }
-    setMounted(true);
   }, []);
 
   const login = (password: string): boolean => {
@@ -37,12 +36,7 @@ export default function ClientWrapper() {
     localStorage.removeItem("dashboard_auth");
   };
 
-  // Show login by default (works for both SSR and client)
-  // After mount, check if user was authenticated
-  if (!mounted) {
-    return <LoginPage onLogin={() => false} />;
-  }
-
+  // Always show login first - no loading state that causes mismatch
   if (!isAuthenticated) {
     return <LoginPage onLogin={login} />;
   }
