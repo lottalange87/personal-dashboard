@@ -10,7 +10,6 @@ import {
   LogOut,
   ExternalLink
 } from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
 
 interface AppTile {
   id: string;
@@ -81,10 +80,10 @@ const apps: AppTile[] = [
 
 interface LaunchpadProps {
   onSelectApp: (appId: string) => void;
+  onLogout: () => void;
 }
 
-export default function Launchpad({ onSelectApp }: LaunchpadProps) {
-  const { logout } = useAuth();
+export default function Launchpad({ onSelectApp, onLogout }: LaunchpadProps) {
   const currentHour = new Date().getHours();
   
   const greeting = 
@@ -102,7 +101,7 @@ export default function Launchpad({ onSelectApp }: LaunchpadProps) {
             <p className="text-sm text-slate-400">{new Date().toLocaleDateString("de-DE", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
           </div>
           <button
-            onClick={logout}
+            onClick={onLogout}
             className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
           >
             <LogOut className="w-4 h-4" />

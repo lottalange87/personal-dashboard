@@ -11,7 +11,8 @@ import {
   Save,
   MoreVertical,
   Tag,
-  FileText
+  FileText,
+  LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,11 +32,12 @@ interface Note {
 
 interface NotesAppProps {
   onBack: () => void;
+  onLogout: () => void;
 }
 
 const ENCRYPTION_PASSWORD = "LottaDash2026!"; // Same as login
 
-export default function NotesApp({ onBack }: NotesAppProps) {
+export default function NotesApp({ onBack, onLogout }: NotesAppProps) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
@@ -179,6 +181,9 @@ export default function NotesApp({ onBack }: NotesAppProps) {
             <Button onClick={createNote} size="sm" className="bg-amber-500 hover:bg-amber-600 text-white">
               <Plus className="w-4 h-4 mr-2" />
               New Note
+            </Button>
+            <Button variant="ghost" size="sm" onClick={onLogout} className="text-slate-400 hover:text-white">
+              <LogOut className="w-4 h-4" />
             </Button>
           </div>
         </div>

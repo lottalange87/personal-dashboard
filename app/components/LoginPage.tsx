@@ -1,16 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Lock, Eye, EyeOff } from "lucide-react";
 
-export default function LoginPage() {
+interface LoginPageProps {
+  onLogin: (password: string) => boolean;
+}
+
+export default function LoginPage({ onLogin }: LoginPageProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const { login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ export default function LoginPage() {
       return;
     }
     
-    const success = login(password);
+    const success = onLogin(password);
     if (!success) {
       setError("Incorrect password");
     }
