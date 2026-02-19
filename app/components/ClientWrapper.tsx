@@ -9,18 +9,20 @@ import MarketsApp from "./MarketsApp";
 const CORRECT_PASSWORD = "LottaDash2026!";
 
 export default function ClientWrapper() {
-  // Use null as initial state - server renders null, client renders null, no mismatch
-  const [authState, setAuthState] = useState<"loading" | "authenticated" | "unauthenticated">("loading");
+  // Start with unauthenticated - same on server and client
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentApp, setCurrentApp] = useState<string | null>(null);
   
   useEffect(() => {
     const stored = localStorage.getItem("dashboard_auth");
-    setAuthState(stored === "true" ? "authenticated" : "unauthenticated");
+    if (stored === "true") {
+      setIsAuthenticated(true);
+    }
   }, []);
 
   const login = (password: string): boolean => {
     if (password === CORRECT_PASSWORD) {
-      setAuthState("authenticated");
+      setIsAuthenticated(true);
       localStorage.setItem("dashboard_auth", "true");
       return true;
     }
@@ -28,21 +30,12 @@ export default function ClientWrapper() {
   };
 
   const logout = () => {
-    setAuthState("unauthenticated");
+    setIsAuthenticated(false);
     setCurrentApp(null);
     localStorage.removeItem("dashboard_auth");
   };
 
-  // While loading, show simple loading (same on server and client)
-  if (authState === "loading") {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
-        <div className="text-slate-400">Loading...</div>
-      </div>
-    );
-  }
-
-  if (authState === "unauthenticated") {
+  if (!isAuthenticated) {
     return <LoginPage onLogin={login} />;
   }
 
