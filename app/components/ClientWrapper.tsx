@@ -37,14 +37,10 @@ export default function ClientWrapper() {
     localStorage.removeItem("dashboard_auth");
   };
 
-  // Before hydration completes, show login page (safe for SSR)
-  // After hydration, check auth state
+  // Show login by default (works for both SSR and client)
+  // After mount, check if user was authenticated
   if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
-        <div className="animate-pulse text-slate-400">Loading...</div>
-      </div>
-    );
+    return <LoginPage onLogin={() => false} />;
   }
 
   if (!isAuthenticated) {
