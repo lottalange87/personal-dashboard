@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import LoginPage from "./LoginPage";
 import Launchpad from "./Launchpad";
 import NotesApp from "./NotesApp";
+import MarketsApp from "./MarketsApp";
 
 const CORRECT_PASSWORD = "LottaDash2026!";
 
@@ -53,6 +54,8 @@ export default function ClientWrapper() {
   switch (currentApp) {
     case "notes":
       return <NotesApp onBack={() => setCurrentApp(null)} onLogout={logout} />;
+    case "markets":
+      return <MarketsApp onBack={() => setCurrentApp(null)} onLogout={logout} />;
     default:
       return <Launchpad onSelectApp={setCurrentApp} onLogout={logout} />;
   }

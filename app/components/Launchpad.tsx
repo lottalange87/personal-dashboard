@@ -38,7 +38,7 @@ const apps: AppTile[] = [
     icon: <TrendingUp className="w-7 h-7" />,
     color: "from-emerald-500 to-green-600",
     bgColor: "bg-emerald-500/10",
-    badge: "Coming Soon",
+    badge: undefined, // Now available
   },
   {
     id: "ai-news",
